@@ -1,30 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Twój Eras Tour — generator raportu HTML na podstawie Spotify Extended Streaming History.
-
-JAK UŻYĆ
---------
-1. Poproś Spotify o swoje dane: https://www.spotify.com/account/privacy/
-   -> "Extended streaming history" (rozszerzona historia odsłuchań).
-   Dostaniesz mailem link do pobrania pliku .zip (przetwarzanie danych przez
-   Spotify trwa zwykle kilka dni).
-
-2. Rozpakuj ten .zip. W środku znajdziesz folder z plikami takimi jak:
-   Streaming_History_Audio_2023.json, Streaming_History_Audio_2024.json, itd.
-
-3. Ustaw poniżej (sekcja KONFIGURACJA) ścieżkę do folderu z tymi plikami
-   oraz zakres lat i artystę, którego chcesz analizować.
-
-4. Uruchom skrypt:
-       python generate_eras_report.py
-   albo w VS Code po prostu klawiszem Run.
-
-5. W folderze skryptu pojawi się plik `twoj_eras_tour_spotify.html`.
-   Otwórz go w przeglądarce.
-
-Wymagania: tylko standardowa biblioteka Pythona (3.8+). Nic nie trzeba
-instalować przez pip.
-"""
 
 import json
 import glob
@@ -33,12 +6,8 @@ import html
 from collections import Counter, defaultdict
 from datetime import datetime, timedelta
 
-# ============================================================
-# KONFIGURACJA — dostosuj do siebie
-# ============================================================
 
 # Ścieżka do folderu z plikami Streaming_History_Audio_*.json
-# (to jest folder "Spotify Extended Streaming History" z paczki od Spotify)
 DATA_FOLDER = "spotify_data"
 
 # Zakres lat do analizy (włącznie)
@@ -53,7 +22,7 @@ ARTIST_NAME = "Taylor Swift"
 REAL_PLAY_THRESHOLD_MS = 30_000
 
 # Liczba dni "wstecz" od najnowszego wpisu w danych, traktowana jako
-# "obecna era" (czyli co ostatnio najczęściej słuchasz)
+# "obecna era" 
 CURRENT_ERA_WINDOW_DAYS = 90
 
 # Plik wyjściowy
@@ -61,15 +30,11 @@ OUTPUT_FILE = "twoj_eras_tour_spotify.html"
 
 # Przybliżone przesunięcie strefy czasowej względem UTC używane tylko
 # do wykresu "pora dnia" (dane Spotify są w UTC). Dla Polski to +1 (zima)
-# / +2 (lato) — dla uproszczenia przyjmujemy stałe +2h. Zmień, jeśli
-# mieszkasz w innej strefie.
+# / +2 (lato) — dla uproszczenia przyjmujemy stałe +2h. 
 LOCAL_TZ_OFFSET_HOURS = 2
 
-# ============================================================
+
 # MAPA ER — kojarzy nazwę albumu z danych Spotify z "erą" Taylor Swift
-# Rozszerz/zmodyfikuj listę ERA_MAP jeśli chcesz analizować innego artystę
-# albo jeśli w Twoich danych pojawią się nowe wydania.
-# ============================================================
 
 ERA_ORDER = [
     'Debut', 'Fearless', 'Fearless (TV)', 'Speak Now', 'Speak Now (TV)',
@@ -117,7 +82,7 @@ ERA_COLORS = {
 }
 
 # Nazwa albumu (dokładnie jak w polu master_metadata_album_album_name)
-# -> nazwa ery. Dopisz tu nowe wydania, jeśli Spotify doda kolejne.
+# -> nazwa ery. 
 ALBUM_TO_ERA = {
     'Taylor Swift': 'Debut',
     'The Taylor Swift Holiday Collection': 'Debut',
@@ -196,9 +161,7 @@ def get_era(album_name):
     return ALBUM_TO_ERA.get(album_name, 'Other')
 
 
-# ============================================================
 # 1. WCZYTYWANIE DANYCH
-# ============================================================
 
 def load_records(data_folder, artist_name, year_from, year_to):
     pattern = os.path.join(data_folder, "Streaming_History_Audio_*.json")
@@ -235,9 +198,7 @@ def load_records(data_folder, artist_name, year_from, year_to):
     return records
 
 
-# ============================================================
 # 2. ANALIZA
-# ============================================================
 
 def era_order_sort(items):
     return sorted(items, key=lambda x: ERA_ORDER.index(x['era']) if x['era'] in ERA_ORDER else 999)
@@ -396,9 +357,7 @@ def analyze(records, year_from, year_to, real_play_threshold_ms, current_era_win
     }
 
 
-# ============================================================
 # 3. GENEROWANIE HTML
-# ============================================================
 
 def esc(s):
     return html.escape(str(s), quote=True)
@@ -835,9 +794,7 @@ def build_html(stats, artist_name, year_from, year_to):
 '''
 
 
-# ============================================================
 # 4. MAIN
-# ============================================================
 
 def main():
     print(f"Wczytuję dane z: {DATA_FOLDER}")

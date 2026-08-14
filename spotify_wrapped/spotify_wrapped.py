@@ -1,21 +1,3 @@
-"""
-Mój Spotify Wrapped 2026 — analiza danych z Extended Streaming History.
-
-Skrypt wczytuje wszystkie pliki Streaming_History_Audio_*.json
-(z eksportu danych Spotify), filtruje odtworzenia z wybranego roku
-i generuje interaktywny raport HTML w stylu Wrapped.
-
-WYMAGANIA:
-    pip install plotly
-
-UŻYCIE:
-    python spotify_wrapped_2026.py
-
-Domyślnie skrypt szuka plików JSON w folderze:
-    ./Spotify Extended Streaming History/
-(czyli tam, gdzie Spotify je umieszcza po rozpakowaniu ZIP-a)
-Możesz to zmienić w zmiennej DATA_FOLDER poniżej.
-"""
 
 import glob
 import json
@@ -25,11 +7,9 @@ from datetime import datetime
 
 import plotly.graph_objects as go
 
-# ============================================================
 # KONFIGURACJA
-# ============================================================
 
-# Rok, który chcesz przeanalizować
+# Rok do analizy
 YEAR = 2026
 
 # Folder z rozpakowanymi plikami JSON od Spotify
@@ -42,9 +22,7 @@ MIN_MS_TO_COUNT_AS_PLAY = 30_000
 OUTPUT_FILE = f"moj_wrapped_{YEAR}.html"
 
 
-# ============================================================
 # WCZYTYWANIE DANYCH
-# ============================================================
 
 def load_streaming_history(folder):
     """Wczytuje i łączy wszystkie pliki Streaming_History_Audio_*.json."""
@@ -91,10 +69,7 @@ def filter_by_year(entries, year):
         filtered.append(e)
     return filtered
 
-
-# ============================================================
 # LICZENIE STATYSTYK
-# ============================================================
 
 def compute_stats(entries):
     total_songs_played = len(entries)
@@ -237,9 +212,7 @@ def compute_yearly_overview(all_entries):
     return yearly_summary
 
 
-# ============================================================
 # GENEROWANIE RAPORTU HTML
-# ============================================================
 
 def build_report(stats, year, yearly_summary, output_path):
     green = "#1DB954"
@@ -503,9 +476,7 @@ def build_report(stats, year, yearly_summary, output_path):
     return output_path
 
 
-# ============================================================
 # MAIN
-# ============================================================
 
 def main():
     print(f"🎧 Analiza roku {YEAR}\n")
