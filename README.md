@@ -1,0 +1,2 @@
+This repository is to create my own spotify wrapped with generated HTML reports. Versions include traditional wrapped, Taylor Swift's Eras Tour inspired wrapped and Olivia Rodrigo Guts Tour inspired wrapped. 
+These reports are based on Spotify Extended Streaming History and the code is generated with the help of Claude Code.
