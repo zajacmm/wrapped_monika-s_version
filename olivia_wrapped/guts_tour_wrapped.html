@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Olivia Rodrigo · Raport słuchania 2021-2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Special+Elite&family=Archivo+Black&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+:root {
+  --bg: #100416;
+  --bg2: #1b0726;
+  --panel: #1f0a2b;
+  --purple-deep: #4b1477;
+  --purple: #8b3fd4;
+  --purple-bright: #b06bff;
+  --lavender: #d9b8ff;
+  --lilac: #e9d5ff;
+  --pink: #ff6ec7;
+  --ink: #f3e9ff;
+  --muted: #b199c9;
+  --line: rgba(217, 184, 255, 0.18);
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background:
+    radial-gradient(ellipse 80% 50% at 20% -10%, rgba(176, 107, 255, 0.35), transparent),
+    radial-gradient(ellipse 60% 40% at 90% 10%, rgba(255, 110, 199, 0.15), transparent),
+    linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
+  color: var(--ink);
+  font-family: 'Space Grotesk', sans-serif;
+  min-height: 100vh;
+  padding-bottom: 60px;
+}
+
+.grain {
+  position: fixed; inset: 0; pointer-events: none; z-index: 999;
+  opacity: 0.05; mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+header.hero {
+  position: relative;
+  padding: 90px 24px 70px;
+  text-align: center;
+  overflow: hidden;
+  border-bottom: 2px solid var(--purple);
+}
+
+header.hero::before {
+  content: "";
+  position: absolute; inset: 0;
+  background: repeating-linear-gradient(115deg, rgba(217,184,255,0.05) 0 2px, transparent 2px 40px);
+  pointer-events: none;
+}
+
+.eyebrow {
+  font-family: 'Special Elite', monospace;
+  letter-spacing: 6px;
+  text-transform: uppercase;
+  color: var(--pink);
+  font-size: 13px;
+  margin-bottom: 18px;
+}
+
+h1.title {
+  font-family: 'Permanent Marker', cursive;
+  font-size: clamp(48px, 9vw, 108px);
+  margin: 0;
+  color: var(--lilac);
+  text-shadow: 0 0 25px rgba(176,107,255,0.65), 3px 3px 0 var(--purple-deep);
+  line-height: 1;
+  transform: rotate(-2deg);
+}
+
+.subtitle {
+  font-family: 'Special Elite', monospace;
+  color: var(--muted);
+  margin-top: 22px;
+  font-size: 16px;
+  letter-spacing: 1px;
+}
+
+.hero-stats {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 14px;
+  margin-top: 44px;
+}
+
+.hero-stat {
+  background: rgba(139,63,212,0.15);
+  border: 1px solid var(--purple);
+  border-radius: 4px;
+  padding: 18px 26px;
+  min-width: 150px;
+  transform: rotate(var(--r, 0deg));
+}
+.hero-stat:nth-child(2){ --r: 1deg; }
+.hero-stat:nth-child(3){ --r: -1deg; }
+.hero-stat:nth-child(4){ --r: 0.6deg; }
+
+.hero-stat .num {
+  font-family: 'Archivo Black', sans-serif;
+  font-size: 34px;
+  color: var(--purple-bright);
+  display: block;
+}
+.hero-stat .lab {
+  font-size: 12px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-top: 4px;
+}
+
+main {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+section {
+  margin-top: 90px;
+}
+
+.section-head {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  margin-bottom: 30px;
+  border-bottom: 1px dashed var(--line);
+  padding-bottom: 16px;
+}
+
+.section-num {
+  font-family: 'Permanent Marker', cursive;
+  font-size: 22px;
+  color: var(--pink);
+}
+
+h2 {
+  font-family: 'Archivo Black', sans-serif;
+  font-size: clamp(26px, 4vw, 38px);
+  margin: 0;
+  color: var(--lilac);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.panel {
+  background: linear-gradient(160deg, rgba(75,20,119,0.35), rgba(31,10,43,0.6));
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 30px;
+  backdrop-filter: blur(6px);
+}
+
+.chart-wrap {
+  position: relative;
+  height: 320px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+th {
+  text-align: left;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--muted);
+  padding: 10px 12px;
+  border-bottom: 2px solid var(--purple);
+}
+td {
+  padding: 14px 12px;
+  border-bottom: 1px solid var(--line);
+  vertical-align: middle;
+}
+tr:hover td { background: rgba(176,107,255,0.06); }
+.rank {
+  font-family: 'Permanent Marker', cursive;
+  color: var(--pink);
+  font-size: 18px;
+  width: 50px;
+}
+.singles-note {
+  color: var(--muted);
+  font-size: 13px;
+  font-style: italic;
+  margin: 0 0 18px;
+}
+.empty-row {
+  text-align: center;
+  color: var(--muted);
+  padding: 24px;
+}
+.song-title {
+  font-weight: 600;
+  color: var(--ink);
+  display: block;
+}
+.song-album {
+  display: block;
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 2px;
+  font-style: italic;
+}
+.num {
+  text-align: right;
+  color: var(--lavender);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.album-bar-row { margin-bottom: 24px; }
+.album-bar-label {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+}
+.album-rank {
+  font-family: 'Permanent Marker', cursive;
+  color: var(--pink);
+}
+.album-name {
+  font-weight: 700;
+  color: var(--ink);
+  font-size: 17px;
+}
+.album-meta {
+  color: var(--muted);
+  font-size: 12px;
+  margin-left: auto;
+}
+.album-bar-track {
+  height: 14px;
+  background: rgba(217,184,255,0.08);
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+}
+.album-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--purple-deep), var(--purple-bright), var(--pink));
+  border-radius: 8px;
+}
+
+.year-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 20px;
+}
+.year-card {
+  background: rgba(75,20,119,0.25);
+  border: 1px solid var(--purple);
+  border-radius: 10px;
+  padding: 22px;
+  position: relative;
+}
+.year-card::after {
+  content: "";
+  position: absolute; top: 14px; right: 14px;
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--pink);
+  box-shadow: 0 0 10px var(--pink);
+}
+.year-num {
+  font-family: 'Archivo Black', sans-serif;
+  font-size: 30px;
+  color: var(--purple-bright);
+}
+.year-stat {
+  color: var(--muted);
+  font-size: 13px;
+  margin-top: 4px;
+}
+.year-stat span {
+  color: var(--lilac);
+  font-weight: 700;
+  font-size: 15px;
+}
+.year-top {
+  margin-top: 14px;
+  border-top: 1px dashed var(--line);
+  padding-top: 10px;
+}
+.year-top-label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--pink);
+}
+.year-top-value {
+  font-size: 14px;
+  color: var(--ink);
+  margin-top: 3px;
+  font-weight: 600;
+}
+
+.two-col {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: 24px;
+}
+@media (max-width: 800px) {
+  .two-col { grid-template-columns: 1fr; }
+}
+
+.fun-facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 18px;
+}
+.fact-card {
+  background: rgba(255,110,199,0.08);
+  border: 1px solid rgba(255,110,199,0.35);
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+}
+.fact-card .icon { font-size: 26px; }
+.fact-card .val {
+  font-family: 'Archivo Black', sans-serif;
+  font-size: 22px;
+  color: var(--pink);
+  margin-top: 8px;
+}
+.fact-card .lab {
+  color: var(--muted);
+  font-size: 12px;
+  margin-top: 4px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+footer {
+  text-align: center;
+  margin-top: 100px;
+  padding: 30px;
+  color: var(--muted);
+  font-family: 'Special Elite', monospace;
+  font-size: 12px;
+  border-top: 1px solid var(--line);
+}
+footer .stamp {
+  font-family: 'Permanent Marker', cursive;
+  color: var(--purple-bright);
+  font-size: 16px;
+  margin-bottom: 6px;
+}
+</style>
+</head>
+<body>
+<div class="grain"></div>
+
+<header class="hero">
+  <div class="eyebrow">raport słuchania · 2021-2026</div>
+  <h1 class="title">Olivia Rodrigo</h1>
+  <div class="subtitle">&mdash; teenage dream, purple palette, pisane w GUTS style &mdash;</div>
+  <div class="hero-stats">
+    <div class="hero-stat"><span class="num">3 530</span><span class="lab">odtworzeń</span></div>
+    <div class="hero-stat"><span class="num">154.6</span><span class="lab">godzin</span></div>
+    <div class="hero-stat"><span class="num">48</span><span class="lab">utworów</span></div>
+    <div class="hero-stat"><span class="num">3</span><span class="lab">albumów</span></div>
+  </div>
+</header>
+
+<main>
+
+  <section>
+    <div class="section-head"><span class="section-num">01</span><h2>Trend słuchania w czasie</h2></div>
+    <div class="panel chart-wrap"><canvas id="trendChart"></canvas></div>
+  </section>
+
+  <section>
+    <div class="section-head"><span class="section-num">02</span><h2>Rok po roku</h2></div>
+    <div class="year-grid">
+      
+        <div class="year-card">
+          <div class="year-num">2021</div>
+          <div class="year-stat"><span>382</span> odtworzeń</div>
+          <div class="year-stat"><span>14 godz. 44 min</span></div>
+          <div class="year-top">
+            <div class="year-top-label">Top utwór</div>
+            <div class="year-top-value">good 4 u</div>
+          </div>
+          <div class="year-top">
+            <div class="year-top-label">Top album</div>
+            <div class="year-top-value">SOUR</div>
+          </div>
+        </div>
+        <div class="year-card">
+          <div class="year-num">2022</div>
+          <div class="year-stat"><span>241</span> odtworzeń</div>
+          <div class="year-stat"><span>9 godz. 54 min</span></div>
+          <div class="year-top">
+            <div class="year-top-label">Top utwór</div>
+            <div class="year-top-value">good 4 u</div>
+          </div>
+          <div class="year-top">
+            <div class="year-top-label">Top album</div>
+            <div class="year-top-value">SOUR</div>
+          </div>
+        </div>
+        <div class="year-card">
+          <div class="year-num">2023</div>
+          <div class="year-stat"><span>311</span> odtworzeń</div>
+          <div class="year-stat"><span>13 godz. 44 min</span></div>
+          <div class="year-top">
+            <div class="year-top-label">Top utwór</div>
+            <div class="year-top-value">bad idea right?</div>
+          </div>
+          <div class="year-top">
+            <div class="year-top-label">Top album</div>
+            <div class="year-top-value">GUTS</div>
+          </div>
+        </div>
+        <div class="year-card">
+          <div class="year-num">2024</div>
+          <div class="year-stat"><span>944</span> odtworzeń</div>
+          <div class="year-stat"><span>38 godz. 31 min</span></div>
+          <div class="year-top">
+            <div class="year-top-label">Top utwór</div>
+            <div class="year-top-value">obsessed</div>
+          </div>
+          <div class="year-top">
+            <div class="year-top-label">Top album</div>
+            <div class="year-top-value">GUTS</div>
+          </div>
+        </div>
+        <div class="year-card">
+          <div class="year-num">2025</div>
+          <div class="year-stat"><span>545</span> odtworzeń</div>
+          <div class="year-stat"><span>25 godz. 2 min</span></div>
+          <div class="year-top">
+            <div class="year-top-label">Top utwór</div>
+            <div class="year-top-value">Can’t Catch Me Now - from The Hunger Games: The Ballad of Songbirds &amp; Snakes</div>
+          </div>
+          <div class="year-top">
+            <div class="year-top-label">Top album</div>
+            <div class="year-top-value">GUTS</div>
+          </div>
+        </div>
+        <div class="year-card">
+          <div class="year-num">2026</div>
+          <div class="year-stat"><span>1107</span> odtworzeń</div>
+          <div class="year-stat"><span>52 godz. 38 min</span></div>
+          <div class="year-top">
+            <div class="year-top-label">Top utwór</div>
+            <div class="year-top-value">drop dead</div>
+          </div>
+          <div class="year-top">
+            <div class="year-top-label">Top album</div>
+            <div class="year-top-value">you seem pretty sad for a girl so in love</div>
+          </div>
+        </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head"><span class="section-num">03</span><h2>Top albumy</h2></div>
+    <div class="two-col">
+      <div class="panel">
+        
+        <div class="album-bar-row">
+          <div class="album-bar-label">
+            <span class="album-rank">#1</span>
+            <span class="album-name">GUTS</span>
+            <span class="album-meta">1524 odtworzeń · 64 godz. 52 min</span>
+          </div>
+          <div class="album-bar-track"><div class="album-bar-fill" style="width:100%"></div></div>
+        </div>
+        <div class="album-bar-row">
+          <div class="album-bar-label">
+            <span class="album-rank">#2</span>
+            <span class="album-name">SOUR</span>
+            <span class="album-meta">1228 odtworzeń · 50 godz. 28 min</span>
+          </div>
+          <div class="album-bar-track"><div class="album-bar-fill" style="width:78%"></div></div>
+        </div>
+        <div class="album-bar-row">
+          <div class="album-bar-label">
+            <span class="album-rank">#3</span>
+            <span class="album-name">you seem pretty sad for a girl so in love</span>
+            <span class="album-meta">628 odtworzeń · 32 godz. 1 min</span>
+          </div>
+          <div class="album-bar-track"><div class="album-bar-fill" style="width:49%"></div></div>
+        </div>
+      </div>
+      <div class="panel chart-wrap">
+        <canvas id="albumChart"></canvas>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head"><span class="section-num">04</span><h2>Top 20 piosenek</h2></div>
+    <div class="panel">
+      <table>
+        <thead><tr><th></th><th>Utwór</th><th class="num">Odtworzenia</th><th class="num">Czas</th></tr></thead>
+        <tbody>
+          
+        <tr>
+          <td class="rank">#1</td>
+          <td class="song-title">good 4 u<span class="song-album">SOUR</span></td>
+          <td class="num">233</td>
+          <td class="num">8 godz. 48 min</td>
+        </tr>
+        <tr>
+          <td class="rank">#2</td>
+          <td class="song-title">bad idea right?<span class="song-album">GUTS</span></td>
+          <td class="num">207</td>
+          <td class="num">9 godz. 8 min</td>
+        </tr>
+        <tr>
+          <td class="rank">#3</td>
+          <td class="song-title">all-american bitch<span class="song-album">GUTS</span></td>
+          <td class="num">159</td>
+          <td class="num">6 godz. 22 min</td>
+        </tr>
+        <tr>
+          <td class="rank">#4</td>
+          <td class="song-title">get him back!<span class="song-album">GUTS</span></td>
+          <td class="num">154</td>
+          <td class="num">7 godz. 36 min</td>
+        </tr>
+        <tr>
+          <td class="rank">#5</td>
+          <td class="song-title">drivers license<span class="song-album">SOUR</span></td>
+          <td class="num">142</td>
+          <td class="num">7 godz. 16 min</td>
+        </tr>
+        <tr>
+          <td class="rank">#6</td>
+          <td class="song-title">jealousy, jealousy<span class="song-album">SOUR</span></td>
+          <td class="num">142</td>
+          <td class="num">5 godz. 43 min</td>
+        </tr>
+        <tr>
+          <td class="rank">#7</td>
+          <td class="song-title">ballad of a homeschooled girl<span class="song-album">GUTS</span></td>
+          <td class="num">134</td>
+          <td class="num">6 godz. 24 min</td>
+        </tr>
+        <tr>
+          <td class="rank">#8</td>
+          <td class="song-title">brutal<span class="song-album">SOUR</span></td>
+          <td class="num">131</td>
+          <td class="num">4 godz. 23 min</td>
+        </tr>
+        <tr>
+          <td class="rank">#9</td>
+          <td class="song-title">Can’t Catch Me Now - from The Hunger Games: The Ballad of Songbirds &amp; Snakes<span class="song-album">Single / Inne</span></td>
+          <td class="num">130</td>
+          <td class="num">6 godz. 26 min</td>
+        </tr>
+        <tr>
+          <td class="rank">#10</td>
+          <td class="song-title">obsessed<span class="song-album">GUTS</span></td>
+          <td class="num">129</td>
+          <td class="num">5 godz. 26 min</td>
+        </tr>
+        <tr>
+          <td class="rank">#11</td>
+          <td class="song-title">traitor<span class="song-album">SOUR</span></td>
+          <td class="num">123</td>
+          <td class="num">6 godz. 7 min</td>
+        </tr>
+        <tr>
+          <td class="rank">#12</td>
+          <td class="song-title">drop dead<span class="song-album">you seem pretty sad for a girl so in love</span></td>
+          <td class="num">112</td>
+          <td class="num">5 godz. 39 min</td>
+        </tr>
+        <tr>
+          <td class="rank">#13</td>
+          <td class="song-title">love is embarrassing<span class="song-album">GUTS</span></td>
+          <td class="num">111</td>
+          <td class="num">3 godz. 57 min</td>
+        </tr>
+        <tr>
+          <td class="rank">#14</td>
+          <td class="song-title">vampire<span class="song-album">GUTS</span></td>
+          <td class="num">109</td>
+          <td class="num">4 godz. 54 min</td>
+        </tr>
+        <tr>
+          <td class="rank">#15</td>
+          <td class="song-title">deja vu<span class="song-album">SOUR</span></td>
+          <td class="num">104</td>
+          <td class="num">4 godz. 48 min</td>
+        </tr>
+        <tr>
+          <td class="rank">#16</td>
+          <td class="song-title">happier<span class="song-album">SOUR</span></td>
+          <td class="num">104</td>
+          <td class="num">4 godz. 19 min</td>
+        </tr>
+        <tr>
+          <td class="rank">#17</td>
+          <td class="song-title">enough for you<span class="song-album">SOUR</span></td>
+          <td class="num">103</td>
+          <td class="num">4 godz. 19 min</td>
+        </tr>
+        <tr>
+          <td class="rank">#18</td>
+          <td class="song-title">favorite crime<span class="song-album">SOUR</span></td>
+          <td class="num">76</td>
+          <td class="num">2 godz. 18 min</td>
+        </tr>
+        <tr>
+          <td class="rank">#19</td>
+          <td class="song-title">making the bed<span class="song-album">GUTS</span></td>
+          <td class="num">76</td>
+          <td class="num">3 godz. 13 min</td>
+        </tr>
+        <tr>
+          <td class="rank">#20</td>
+          <td class="song-title">pretty isn’t pretty<span class="song-album">GUTS</span></td>
+          <td class="num">75</td>
+          <td class="num">3 godz. 24 min</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head"><span class="section-num">05</span><h2>Single &amp; inne (poza albumami)</h2></div>
+    <div class="panel">
+      <p class="singles-note">Utwory wydane jako single, covery, wersje live lub ścieżki dźwiękowe - nie wliczone do 3 albumów powyżej.</p>
+      <table>
+        <thead><tr><th></th><th>Utwór</th><th class="num">Odtworzenia</th><th class="num">Czas</th></tr></thead>
+        <tbody>
+          
+        <tr>
+          <td class="rank">#1</td>
+          <td class="song-title">Can’t Catch Me Now - from The Hunger Games: The Ballad of Songbirds &amp; Snakes</td>
+          <td class="num">130</td>
+          <td class="num">6 godz. 26 min</td>
+        </tr>
+        <tr>
+          <td class="rank">#2</td>
+          <td class="song-title">Friday I'm In Love - Live From Glastonbury</td>
+          <td class="num">10</td>
+          <td class="num">31 min</td>
+        </tr>
+        <tr>
+          <td class="rank">#3</td>
+          <td class="song-title">Just Like Heaven - Live From Glastonbury</td>
+          <td class="num">6</td>
+          <td class="num">13 min</td>
+        </tr>
+        <tr>
+          <td class="rank">#4</td>
+          <td class="song-title">All I Want - From &quot;High School Musical: The Musical: The Series&quot;</td>
+          <td class="num">3</td>
+          <td class="num">1 min</td>
+        </tr>
+        <tr>
+          <td class="rank">#5</td>
+          <td class="song-title">What I've Been Looking For - From &quot;High School Musical: The Musical: The Series&quot;/Nini &amp; E.J. Version</td>
+          <td class="num">1</td>
+          <td class="num">0 min</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head"><span class="section-num">06</span><h2>Nawyki słuchania</h2></div>
+    <div class="two-col">
+      <div class="panel chart-wrap"><canvas id="hourChart"></canvas></div>
+      <div class="panel chart-wrap"><canvas id="weekdayChart"></canvas></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head"><span class="section-num">07</span><h2>Ciekawostki</h2></div>
+    <div class="fun-facts">
+      <div class="fact-card"><div class="icon">🎧</div><div class="val">19.1%</div><div class="lab">wskaźnik pomijania</div></div>
+      <div class="fact-card"><div class="icon">🕒</div><div class="val">14:00</div><div class="lab">ulubiona godzina</div></div>
+      <div class="fact-card"><div class="icon">📅</div><div class="val">Wtorek</div><div class="lab">ulubiony dzień tygodnia</div></div>
+      <div class="fact-card"><div class="icon">🟣</div><div class="val">18.01.2021</div><div class="lab">pierwsze odtworzenie w okresie</div></div>
+      <div class="fact-card"><div class="icon">💜</div><div class="val">02.08.2026</div><div class="lab">ostatnie odtworzenie</div></div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="stamp">good 4 u &middot; guts era &middot; purple hearts only</div>
+  raport wygenerowany na podstawie Twojej historii Spotify (2021-2026)
+</footer>
+
+<script>
+const purple = 'rgba(139,63,212,0.85)';
+const purpleBright = 'rgba(176,107,255,0.95)';
+const pink = 'rgba(255,110,199,0.9)';
+const lilac = '#e9d5ff';
+const muted = '#b199c9';
+const gridColor = 'rgba(217,184,255,0.12)';
+
+// Bezpieczne tworzenie wykresu - jeśli jeden się wysypie (albo Chart.js
+// w ogóle się nie załaduje z CDN, np. brak internetu), nie blokuje to
+// renderowania pozostałych wykresów na stronie.
+function safeChart(canvasId, config) {
+  const canvas = document.getElementById(canvasId);
+  if (!canvas) return;
+  try {
+    if (typeof Chart === 'undefined') {
+      throw new Error('Biblioteka Chart.js się nie załadowała (sprawdź połączenie z internetem).');
+    }
+    new Chart(canvas, config);
+  } catch (err) {
+    console.error('Błąd wykresu ' + canvasId + ':', err);
+    const wrap = canvas.closest('.chart-wrap') || canvas.parentElement;
+    if (wrap) {
+      wrap.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:#b199c9;font-size:13px;text-align:center;padding:20px;">'
+        + '⚠️ Nie udało się załadować wykresu.<br>Sprawdź połączenie z internetem (wykresy wymagają Chart.js z CDN) i odśwież stronę.</div>';
+    }
+  }
+}
+
+if (typeof Chart !== 'undefined') {
+  Chart.defaults.color = muted;
+  Chart.defaults.font.family = "'Space Grotesk', sans-serif";
+}
+
+safeChart('trendChart', {
+  type: 'line',
+  data: {
+    labels: ["2021-01", "2021-02", "2021-04", "2021-05", "2021-06", "2021-07", "2021-08", "2021-09", "2021-10", "2021-11", "2021-12", "2022-01", "2022-02", "2022-03", "2022-04", "2022-05", "2022-06", "2022-07", "2022-08", "2022-09", "2022-10", "2022-11", "2022-12", "2023-01", "2023-02", "2023-03", "2023-07", "2023-08", "2023-09", "2023-10", "2023-11", "2023-12", "2024-01", "2024-02", "2024-03", "2024-04", "2024-05", "2024-06", "2024-08", "2024-09", "2024-10", "2024-11", "2024-12", "2025-01", "2025-02", "2025-03", "2025-04", "2025-05", "2025-06", "2025-07", "2025-08", "2025-09", "2025-10", "2025-11", "2025-12", "2026-01", "2026-02", "2026-03", "2026-04", "2026-05", "2026-06", "2026-07", "2026-08"],
+    datasets: [{
+      label: 'Minuty słuchania / miesiąc',
+      data: [53.0, 88.3, 7.1, 40.5, 424.4, 96.3, 97.7, 14.4, 33.3, 5.7, 23.5, 12.1, 13.7, 5.5, 160.1, 260.7, 28.4, 24.4, 16.4, 6.4, 45.0, 15.7, 5.9, 2.1, 0.3, 7.6, 12.7, 12.1, 60.3, 35.4, 88.5, 605.6, 249.2, 98.0, 662.3, 240.0, 21.3, 139.0, 6.8, 28.4, 402.9, 315.3, 148.1, 236.0, 210.0, 134.8, 95.8, 38.6, 50.1, 67.2, 73.6, 10.1, 54.0, 327.9, 204.1, 123.5, 87.6, 325.4, 461.2, 194.9, 1606.4, 356.3, 2.9],
+      borderColor: purpleBright,
+      backgroundColor: 'rgba(176,107,255,0.18)',
+      fill: true,
+      tension: 0.35,
+      pointRadius: 2,
+      pointBackgroundColor: pink,
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { labels: { color: lilac } } },
+    scales: {
+      x: { grid: { color: gridColor }, ticks: { maxTicksLimit: 12 } },
+      y: { grid: { color: gridColor } }
+    }
+  }
+});
+
+safeChart('albumChart', {
+  type: 'bar',
+  data: {
+    labels: ["GUTS", "SOUR", "you seem pretty sad for a girl so in love"],
+    datasets: [{
+      label: 'Minuty',
+      data: [3892.6, 3028.4, 1921.2],
+      backgroundColor: purple,
+      borderRadius: 6,
+    }]
+  },
+  options: {
+    indexAxis: 'y',
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { grid: { color: gridColor } },
+      y: { grid: { display: false }, ticks: { color: lilac, font: {size: 11} } }
+    }
+  }
+});
+
+safeChart('hourChart', {
+  type: 'bar',
+  data: {
+    labels: ["0:00", "1:00", "2:00", "3:00", "4:00", "5:00", "6:00", "7:00", "8:00", "9:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00"],
+    datasets: [{
+      label: 'Odtworzenia wg godziny',
+      data: [5, 3, 3, 4, 26, 129, 212, 149, 224, 240, 264, 307, 282, 284, 323, 178, 97, 173, 178, 169, 134, 100, 32, 14],
+      backgroundColor: pink,
+      borderRadius: 4,
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false }, title: { display: true, text: 'Pora dnia', color: lilac } },
+    scales: {
+      x: { grid: { display: false }, ticks: { maxTicksLimit: 12 } },
+      y: { grid: { color: gridColor } }
+    }
+  }
+});
+
+safeChart('weekdayChart', {
+  type: 'polarArea',
+  data: {
+    labels: ["Poniedzia\u0142ek", "Wtorek", "\u015aroda", "Czwartek", "Pi\u0105tek", "Sobota", "Niedziela"],
+    datasets: [{
+      data: [447, 633, 512, 580, 586, 321, 451],
+      backgroundColor: ['#4b1477','#5e1c94','#722bb3','#8b3fd4','#a558e6','#c17bff','#ff6ec7'],
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { position: 'bottom', labels: { color: lilac, font: {size: 10} } },
+      title: { display: true, text: 'Dzień tygodnia', color: lilac } },
+    scales: { r: { grid: { color: gridColor }, ticks: { display: false } } }
+  }
+});
+</script>
+
+</body>
+</html>
