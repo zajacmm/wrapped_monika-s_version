@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<title>Mój Spotify Wrapped 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+    * { box-sizing:border-box; }
+    body {
+        background:#0a0a0a;
+        color:#f5f5f5;
+        font-family:'Inter',Arial,sans-serif;
+        margin:0;
+        line-height:1.5;
+    }
+    h1, h2, h3, .stat-box .num { font-family:'Poppins',sans-serif; }
+
+    .header {
+        background:
+            radial-gradient(circle at 20% 20%, rgba(29,185,84,.35), transparent 45%),
+            radial-gradient(circle at 80% 0%, rgba(29,185,84,.25), transparent 40%),
+            linear-gradient(160deg, #0a0a0a 0%, #0f1f14 60%, #0a0a0a 100%);
+        padding:80px 20px 70px;
+        text-align:center;
+        border-bottom:1px solid #1f1f1f;
+    }
+    .header h1 {
+        font-size:3.2em;
+        font-weight:800;
+        margin:0;
+        background:linear-gradient(90deg,#1DB954,#7CE495);
+        -webkit-background-clip:text;
+        -webkit-text-fill-color:transparent;
+        background-clip:text;
+        letter-spacing:-1px;
+    }
+    .header p { opacity:.55; margin-top:12px; font-size:.95em; letter-spacing:.3px; }
+
+    .container { max-width:940px; margin:0 auto; padding:50px 20px 20px; }
+    .section { margin-bottom:70px; }
+
+    .stat-boxes { display:flex; gap:16px; flex-wrap:wrap; justify-content:center; margin:40px 0; }
+    .stat-box {
+        background:linear-gradient(160deg,#181818,#111);
+        border:1px solid #232323;
+        border-radius:16px;
+        padding:26px 32px;
+        text-align:center;
+        min-width:170px;
+        transition:transform .2s ease, border-color .2s ease;
+    }
+    .stat-box:hover { transform:translateY(-3px); border-color:#1DB95455; }
+    .stat-box .num { font-size:2.3em; font-weight:700; color:#1DB954; }
+    .stat-box .label { opacity:.6; margin-top:6px; font-size:.85em; }
+
+    ul { list-style:none; padding:0; }
+    li {
+        background:linear-gradient(90deg,#161616,#131313);
+        border:1px solid #212121;
+        margin:8px 0;
+        padding:14px 20px;
+        border-radius:10px;
+        transition:border-color .2s ease;
+    }
+    li:hover { border-color:#1DB95444; }
+    .rank { color:#1DB954; font-weight:700; margin-right:10px; }
+    .count { opacity:.55; float:right; font-size:.9em; }
+
+    h2 {
+        font-weight:700;
+        font-size:1.5em;
+        border-left:4px solid #1DB954;
+        padding-left:14px;
+        margin-bottom:24px;
+    }
+    footer { text-align:center; opacity:.4; padding:40px 20px; font-size:.8em; }
+
+    table { border-collapse:collapse; width:100%; }
+    table td, table th { padding:13px 12px; border-bottom:1px solid #202020; }
+    table td { font-size:.88em; }
+    table th { font-family:'Poppins',sans-serif; }
+
+    /* --- Sekcja Taylor Swift --- */
+    .taylor-section {
+        background:
+            radial-gradient(circle at 15% 10%, color-mix(in srgb, var(--era-color) 35%, transparent), transparent 55%),
+            radial-gradient(circle at 85% 90%, color-mix(in srgb, var(--era-color) 25%, transparent), transparent 50%),
+            linear-gradient(160deg,#151020,#0a0a0a);
+        border:1px solid color-mix(in srgb, var(--era-color) 40%, #222);
+        border-radius:24px;
+        padding:50px 40px;
+        text-align:center;
+    }
+    .taylor-badge {
+        display:inline-block;
+        font-size:.75em;
+        letter-spacing:2px;
+        color:var(--era-color);
+        border:1px solid var(--era-color);
+        border-radius:20px;
+        padding:6px 16px;
+        margin-bottom:18px;
+        font-weight:600;
+    }
+    .taylor-title {
+        font-size:2em;
+        margin:0 0 6px;
+        border:none;
+        padding:0;
+        font-weight:800;
+    }
+    .era-name {
+        font-size:1.6em;
+        font-weight:700;
+        color:var(--era-color);
+        margin:10px 0 6px;
+        font-family:'Poppins',sans-serif;
+    }
+    .taylor-sub { opacity:.6; font-size:.9em; margin-bottom:35px; }
+    .taylor-grid {
+        display:grid;
+        grid-template-columns:1fr 1fr;
+        gap:24px;
+        text-align:left;
+        margin-bottom:20px;
+    }
+    .taylor-col h3 { font-size:1em; opacity:.85; margin-bottom:14px; }
+    .taylor-list li { background:rgba(255,255,255,.04); border-color:rgba(255,255,255,.08); }
+    .era-tag { font-size:.82em; opacity:.85; }
+    .taylor-chart { text-align:left; margin-top:10px; }
+
+    /* --- Ranking Er --- */
+    .era-ranking { text-align:left; margin:30px 0; }
+    .era-ranking h3 { font-size:1em; opacity:.85; margin-bottom:16px; text-align:center; }
+    .era-row {
+        display:flex; align-items:center; gap:12px; margin:8px 0;
+        background:rgba(255,255,255,.03); border:1px solid rgba(255,255,255,.06);
+        border-radius:10px; padding:10px 14px;
+    }
+    .era-row-top { border-color:var(--era-color); background:rgba(255,255,255,.06); }
+    .era-row-label { display:flex; align-items:center; gap:8px; min-width:210px; font-size:.88em; }
+    .era-dot { width:10px; height:10px; border-radius:50%; flex-shrink:0; }
+    .era-row-bar-track { flex:1; height:8px; background:rgba(255,255,255,.08); border-radius:6px; overflow:hidden; }
+    .era-row-bar { height:100%; border-radius:6px; }
+    .era-row-pct { min-width:48px; text-align:right; font-size:.85em; opacity:.75; font-weight:600; }
+
+    /* --- Binge --- */
+    .binge-card {
+        display:flex; align-items:center; gap:18px; text-align:left;
+        background:linear-gradient(90deg, rgba(255,138,0,.15), rgba(255,138,0,.03));
+        border:1px solid rgba(255,138,0,.35); border-radius:14px;
+        padding:18px 22px; margin:24px 0;
+    }
+    .binge-icon { font-size:2.2em; }
+    .binge-title { font-size:.8em; opacity:.7; letter-spacing:.5px; text-transform:uppercase; }
+    .binge-value { font-size:1.4em; font-weight:700; font-family:'Poppins',sans-serif; margin-top:2px; }
+    .binge-sub { font-size:.65em; font-weight:400; opacity:.7; }
+    .binge-when { font-size:.82em; opacity:.6; margin-top:3px; }
+
+    /* --- Pełne przesłuchania --- */
+    .full-listens { text-align:left; margin-top:30px; }
+    .full-listens h3 { font-size:1em; opacity:.85; margin-bottom:6px; text-align:center; }
+    .fl-note { font-size:.78em; opacity:.5; text-align:center; margin-bottom:16px; }
+    .fl-sub { font-size:.75em; opacity:.5; margin-top:3px; }
+
+    .top-era-tracks { text-align:left; margin:30px 0; }
+    .top-era-tracks h3 { font-size:1em; opacity:.85; margin-bottom:14px; text-align:center; }
+    @media (max-width:640px) {
+        .taylor-grid { grid-template-columns:1fr; }
+        .header h1 { font-size:2.2em; }
+    }
+</style>
+</head>
+<body>
+
+<div class="header">
+    <h1>🎵 Mój Spotify Wrapped 2026</h1>
+    <p>Wygenerowano 28.08.2026 09:49</p>
+</div>
+
+<div class="container">
+
+    <div class="stat-boxes">
+        <div class="stat-box">
+            <div class="num">9,058</div>
+            <div class="label">Odtworzonych piosenek</div>
+        </div>
+        <div class="stat-box">
+            <div class="num">1,310</div>
+            <div class="label">Unikalnych utworów</div>
+        </div>
+        <div class="stat-box">
+            <div class="num">472</div>
+            <div class="label">Różnych artystów</div>
+        </div>
+        <div class="stat-box">
+            <div class="num">490</div>
+            <div class="label">Godzin słuchania</div>
+        </div>
+        <div class="stat-box">
+            <div class="num">16.0%</div>
+            <div class="label">Wskaźnik pomijania</div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Top 10 utworów</h2>
+        <ul><li><span class='rank'>#1</span> <b>drop dead</b> — Olivia Rodrigo <span class='count'>351 min · 102x</span></li><li><span class='rank'>#2</span> <b>honeybee</b> — Olivia Rodrigo <span class='count'>250 min · 70x</span></li><li><span class='rank'>#3</span> <b>august</b> — Taylor Swift <span class='count'>235 min · 59x</span></li><li><span class='rank'>#4</span> <b>maggots for brains</b> — Olivia Rodrigo <span class='count'>229 min · 65x</span></li><li><span class='rank'>#5</span> <b>BEZ STRESU</b> — Taco Hemingway <span class='count'>221 min · 55x</span></li><li><span class='rank'>#6</span> <b>The Fate of Ophelia</b> — Taylor Swift <span class='count'>212 min · 58x</span></li><li><span class='rank'>#7</span> <b>EoO</b> — Bad Bunny <span class='count'>211 min · 75x</span></li><li><span class='rank'>#8</span> <b>stupid song</b> — Olivia Rodrigo <span class='count'>193 min · 59x</span></li><li><span class='rank'>#9</span> <b>Heaven</b> — Bryan Adams <span class='count'>189 min · 52x</span></li><li><span class='rank'>#10</span> <b>Opalite</b> — Taylor Swift <span class='count'>183 min · 49x</span></li></ul>
+    </div>
+
+    
+    <div class="section taylor-section" style="--era-color:#FFB627;">
+        <div class="taylor-header">
+            <span class="taylor-badge">✨ SWIFTIE STATS ✨</span>
+            <h2 class="taylor-title">W jakiej jesteś Erze?</h2>
+            <div class="era-name">The Life of a Showgirl Era</div>
+            <p class="taylor-sub">
+                1,298 odtworzeń · 4,707 minut w 2026 roku
+                · Era wybrana na podstawie albumu, na który poszło najwięcej minut słuchania
+            </p>
+        </div>
+
+        
+        <div class="binge-card">
+            <div class="binge-icon">🔥</div>
+            <div>
+                <div class="binge-title">Najdłuższy Taylor Binge</div>
+                <div class="binge-value">2h 3min <span class="binge-sub">(35 piosenek non-stop)</span></div>
+                <div class="binge-when">zaczęło się 10.04.2026 o 11:36</div>
+            </div>
+        </div>
+
+        <div class="era-ranking">
+            <h3>🏆 Ranking Twoich Er (wg % czasu słuchania)</h3>
+            
+            <div class="era-row era-row-top">
+                <div class="era-row-label">
+                    <span class="era-dot" style="background:#FFB627;"></span>
+                    <span>👑 The Life of a Showgirl Era</span>
+                </div>
+                <div class="era-row-bar-track">
+                    <div class="era-row-bar" style="width:18.9%; background:#FFB627;"></div>
+                </div>
+                <div class="era-row-pct">18.9%</div>
+            </div>
+            <div class="era-row ">
+                <div class="era-row-label">
+                    <span class="era-dot" style="background:#8C8C8C;"></span>
+                    <span>folklore Era</span>
+                </div>
+                <div class="era-row-bar-track">
+                    <div class="era-row-bar" style="width:18.5%; background:#8C8C8C;"></div>
+                </div>
+                <div class="era-row-pct">18.5%</div>
+            </div>
+            <div class="era-row ">
+                <div class="era-row-label">
+                    <span class="era-dot" style="background:#1B2A4A;"></span>
+                    <span>Midnights Era</span>
+                </div>
+                <div class="era-row-bar-track">
+                    <div class="era-row-bar" style="width:16.4%; background:#1B2A4A;"></div>
+                </div>
+                <div class="era-row-pct">16.4%</div>
+            </div>
+            <div class="era-row ">
+                <div class="era-row-label">
+                    <span class="era-dot" style="background:#B5651D;"></span>
+                    <span>evermore Era</span>
+                </div>
+                <div class="era-row-bar-track">
+                    <div class="era-row-bar" style="width:10.5%; background:#B5651D;"></div>
+                </div>
+                <div class="era-row-pct">10.5%</div>
+            </div>
+            <div class="era-row ">
+                <div class="era-row-label">
+                    <span class="era-dot" style="background:#A8D0E6;"></span>
+                    <span>1989 Era</span>
+                </div>
+                <div class="era-row-bar-track">
+                    <div class="era-row-bar" style="width:8.4%; background:#A8D0E6;"></div>
+                </div>
+                <div class="era-row-pct">8.4%</div>
+            </div>
+            <div class="era-row ">
+                <div class="era-row-label">
+                    <span class="era-dot" style="background:#D9D9D9;"></span>
+                    <span>The Tortured Poets Department Era</span>
+                </div>
+                <div class="era-row-bar-track">
+                    <div class="era-row-bar" style="width:6.8%; background:#D9D9D9;"></div>
+                </div>
+                <div class="era-row-pct">6.8%</div>
+            </div>
+            <div class="era-row ">
+                <div class="era-row-label">
+                    <span class="era-dot" style="background:#F8A5C2;"></span>
+                    <span>Lover Era</span>
+                </div>
+                <div class="era-row-bar-track">
+                    <div class="era-row-bar" style="width:5.6%; background:#F8A5C2;"></div>
+                </div>
+                <div class="era-row-pct">5.6%</div>
+            </div>
+            <div class="era-row ">
+                <div class="era-row-label">
+                    <span class="era-dot" style="background:#9B59B6;"></span>
+                    <span>Speak Now Era</span>
+                </div>
+                <div class="era-row-bar-track">
+                    <div class="era-row-bar" style="width:3.9%; background:#9B59B6;"></div>
+                </div>
+                <div class="era-row-pct">3.9%</div>
+            </div>
+            <div class="era-row ">
+                <div class="era-row-label">
+                    <span class="era-dot" style="background:#B7312C;"></span>
+                    <span>Red Era</span>
+                </div>
+                <div class="era-row-bar-track">
+                    <div class="era-row-bar" style="width:3.8%; background:#B7312C;"></div>
+                </div>
+                <div class="era-row-pct">3.8%</div>
+            </div>
+            <div class="era-row ">
+                <div class="era-row-label">
+                    <span class="era-dot" style="background:#2B2B2B;"></span>
+                    <span>reputation Era</span>
+                </div>
+                <div class="era-row-bar-track">
+                    <div class="era-row-bar" style="width:1.5%; background:#2B2B2B;"></div>
+                </div>
+                <div class="era-row-pct">1.5%</div>
+            </div>
+            <div class="era-row ">
+                <div class="era-row-label">
+                    <span class="era-dot" style="background:#D4A843;"></span>
+                    <span>Fearless Era</span>
+                </div>
+                <div class="era-row-bar-track">
+                    <div class="era-row-bar" style="width:0.6%; background:#D4A843;"></div>
+                </div>
+                <div class="era-row-pct">0.6%</div>
+            </div>
+            <div class="era-row ">
+                <div class="era-row-label">
+                    <span class="era-dot" style="background:#7CAE7A;"></span>
+                    <span>Debiutancka Era</span>
+                </div>
+                <div class="era-row-bar-track">
+                    <div class="era-row-bar" style="width:0.1%; background:#7CAE7A;"></div>
+                </div>
+                <div class="era-row-pct">0.1%</div>
+            </div>
+        </div>
+
+        
+        <div class="top-era-tracks">
+            <h3>🎤 Top 5 piosenek z Twojej Top Ery — The Life of a Showgirl</h3>
+            <ul class="taylor-list"><li><span class='rank'>#1</span> <b>The Fate of Ophelia</b> <span class='count'>212 min · 58x</span></li><li><span class='rank'>#2</span> <b>Opalite</b> <span class='count'>162 min · 43x</span></li><li><span class='rank'>#3</span> <b>Father Figure</b> <span class='count'>122 min · 36x</span></li><li><span class='rank'>#4</span> <b>CANCELLED!</b> <span class='count'>104 min · 33x</span></li><li><span class='rank'>#5</span> <b>The Life of a Showgirl (feat. Sabrina Carpenter)</b> <span class='count'>85 min · 23x</span></li></ul>
+        </div>
+
+        <div class="taylor-grid">
+            <div class="taylor-col">
+                <h3>🎧 Top 5 piosenek</h3>
+                <ul class="taylor-list"><li><span class='rank'>#1</span> <b>august</b> <span class='era-tag' style='color:#FFB627;'>· folklore</span> <span class='count'>235 min · 59x</span></li><li><span class='rank'>#2</span> <b>The Fate of Ophelia</b> <span class='era-tag' style='color:#FFB627;'>· The Life of a Showgirl</span> <span class='count'>212 min · 58x</span></li><li><span class='rank'>#3</span> <b>Maroon</b> <span class='era-tag' style='color:#FFB627;'>· Midnights</span> <span class='count'>179 min · 48x</span></li><li><span class='rank'>#4</span> <b>cowboy like me</b> <span class='era-tag' style='color:#FFB627;'>· evermore</span> <span class='count'>168 min · 38x</span></li><li><span class='rank'>#5</span> <b>Opalite</b> <span class='era-tag' style='color:#FFB627;'>· The Life of a Showgirl</span> <span class='count'>162 min · 43x</span></li></ul>
+            </div>
+            <div class="taylor-col">
+                <h3>💿 Top 5 albumów (wg minut)</h3>
+                <ul class="taylor-list"><li><span class='rank'>#1</span> <b>folklore</b> <span class='count'>853 min · 234x</span></li><li><span class='rank'>#2</span> <b>The Life of a Showgirl</b> <span class='count'>809 min · 235x</span></li><li><span class='rank'>#3</span> <b>Midnights</b> <span class='count'>770 min · 229x</span></li><li><span class='rank'>#4</span> <b>evermore</b> <span class='count'>496 min · 124x</span></li><li><span class='rank'>#5</span> <b>1989 (Taylor's Version)</b> <span class='count'>394 min · 113x</span></li></ul>
+            </div>
+        </div>
+
+        <div class="taylor-chart">
+            <div style="height:350px; width:100%;">                            <div id="c109a293-323b-40fe-9186-a0d73dee8aee" class="plotly-graph-div" style="height:100%; width:100%;"></div>            <script>                window.PLOTLYENV=window.PLOTLYENV || {};                                if (document.getElementById("c109a293-323b-40fe-9186-a0d73dee8aee")) {                    Plotly.newPlot(                        "c109a293-323b-40fe-9186-a0d73dee8aee",                        [{"marker":{"color":"#FFB627"},"orientation":"h","x":[263.20684999999986,394.25925000000007,496.3058666666664,769.5888166666668,809.164216666667,853.1139833333343],"y":["Lover","1989 (Taylor's Version)","evermore","Midnights","The Life of a Showgirl","folklore"],"type":"bar"}],                        {"template":{"data":{"histogram2dcontour":[{"type":"histogram2dcontour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"choropleth":[{"type":"choropleth","colorbar":{"outlinewidth":0,"ticks":""}}],"histogram2d":[{"type":"histogram2d","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmap":[{"type":"heatmap","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"contourcarpet":[{"type":"contourcarpet","colorbar":{"outlinewidth":0,"ticks":""}}],"contour":[{"type":"contour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"surface":[{"type":"surface","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"mesh3d":[{"type":"mesh3d","colorbar":{"outlinewidth":0,"ticks":""}}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"parcoords":[{"type":"parcoords","line":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolargl":[{"type":"scatterpolargl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"scattergeo":[{"type":"scattergeo","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolar":[{"type":"scatterpolar","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"scattergl":[{"type":"scattergl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatter3d":[{"type":"scatter3d","line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermap":[{"type":"scattermap","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermapbox":[{"type":"scattermapbox","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterternary":[{"type":"scatterternary","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattercarpet":[{"type":"scattercarpet","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}],"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"pie":[{"automargin":true,"type":"pie"}]},"layout":{"autotypenumbers":"strict","colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"hovermode":"closest","hoverlabel":{"align":"left"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"bgcolor":"#E5ECF6","angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"ternary":{"bgcolor":"#E5ECF6","aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]]},"xaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"yaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"geo":{"bgcolor":"white","landcolor":"#E5ECF6","subunitcolor":"white","showland":true,"showlakes":true,"lakecolor":"white"},"title":{"x":0.05},"mapbox":{"style":"light"}}},"font":{"color":"white","size":13},"title":{"text":"\ud83d\udcbf Twoje najcz\u0119\u015bciej s\u0142uchane albumy TS (wg minut)"},"plot_bgcolor":"#1a1625","paper_bgcolor":"#1a1625","height":350,"xaxis":{"title":{"text":"Minuty s\u0142uchania"}}},                        {"responsive": true}                    )                };            </script>        </div>
+        </div>
+
+        <div class="full-listens">
+            <h3>📀 Ile razy "przesłuchałaś" cały album</h3>
+            <p class="fl-note">Liczone na podstawie łącznych minut słuchania danego albumu
+            podzielonych przez jego oficjalną długość — nie każdego utworu z osobna.</p>
+            <ul class="taylor-list">
+            <li>
+                <b>The Life of a Showgirl</b>
+                <span class="count">19.4x cały album</span>
+                <div class="fl-sub">809 min słuchania ÷ 42 min albumu</div>
+            </li>
+            <li>
+                <b>Midnights</b>
+                <span class="count">17.5x cały album</span>
+                <div class="fl-sub">770 min słuchania ÷ 44 min albumu</div>
+            </li>
+            <li>
+                <b>folklore</b>
+                <span class="count">13.4x cały album</span>
+                <div class="fl-sub">853 min słuchania ÷ 63 min albumu</div>
+            </li>
+            <li>
+                <b>evermore</b>
+                <span class="count">8.2x cały album</span>
+                <div class="fl-sub">496 min słuchania ÷ 61 min albumu</div>
+            </li>
+            <li>
+                <b>1989 (Taylor's Version)</b>
+                <span class="count">8.1x cały album</span>
+                <div class="fl-sub">394 min słuchania ÷ 49 min albumu</div>
+            </li>
+            <li>
+                <b>Lover</b>
+                <span class="count">4.3x cały album</span>
+                <div class="fl-sub">263 min słuchania ÷ 62 min albumu</div>
+            </li>
+            <li>
+                <b>THE TORTURED POETS DEPARTMENT</b>
+                <span class="count">3.4x cały album</span>
+                <div class="fl-sub">222 min słuchania ÷ 65 min albumu</div>
+            </li>
+            <li>
+                <b>Speak Now (Taylor's Version)</b>
+                <span class="count">2.7x cały album</span>
+                <div class="fl-sub">183 min słuchania ÷ 67 min albumu</div>
+            </li></ul>
+        </div>
+    </div>
+
+
+    <div class="section">
+        <h2>💿 Top 10 albumów</h2>
+        <ul><li><span class='rank'>#1</span> <b>you seem pretty sad for a girl so in love</b> — Olivia Rodrigo <span class='count'>1776 min · 509x</span></li><li><span class='rank'>#2</span> <b>LATARNIE WSZĘDZIE DAWNO ZGASŁY</b> — Taco Hemingway <span class='count'>1259 min · 377x</span></li><li><span class='rank'>#3</span> <b>folklore</b> — Taylor Swift <span class='count'>853 min · 234x</span></li><li><span class='rank'>#4</span> <b>The Life of a Showgirl</b> — Taylor Swift <span class='count'>809 min · 235x</span></li><li><span class='rank'>#5</span> <b>DeBÍ TiRAR MáS FOToS</b> — Bad Bunny <span class='count'>787 min · 279x</span></li><li><span class='rank'>#6</span> <b>Midnights</b> — Taylor Swift <span class='count'>770 min · 229x</span></li><li><span class='rank'>#7</span> <b>GUTS (spilled)</b> — Olivia Rodrigo <span class='count'>671 min · 226x</span></li><li><span class='rank'>#8</span> <b>Hozier</b> — Hozier <span class='count'>567 min · 145x</span></li><li><span class='rank'>#9</span> <b>Man’s Best Friend</b> — Sabrina Carpenter <span class='count'>546 min · 195x</span></li><li><span class='rank'>#10</span> <b>evermore</b> — Taylor Swift <span class='count'>496 min · 124x</span></li></ul>
+    </div>
+
+    <div class="section">
+        <div style="height:450px; width:100%;">                        <script>window.PlotlyConfig = {MathJaxConfig: 'local'};</script>
+        <script charset="utf-8" src="https://cdn.plot.ly/plotly-3.7.0.min.js" integrity="sha256-jvTGqxNp8AGWEcvNLVuKr+8j5dGe9Yw51LQkmDH+IYA=" crossorigin="anonymous"></script>                <div id="135a9094-6d48-4fae-b7ad-ce76e104c1c1" class="plotly-graph-div" style="height:100%; width:100%;"></div>            <script>                window.PLOTLYENV=window.PLOTLYENV || {};                                if (document.getElementById("135a9094-6d48-4fae-b7ad-ce76e104c1c1")) {                    Plotly.newPlot(                        "135a9094-6d48-4fae-b7ad-ce76e104c1c1",                        [{"marker":{"color":"#1DB954"},"orientation":"h","x":[612.3433166666667,642.4686166666667,682.4170500000007,772.609533333334,810.3256333333326,1023.2336333333327,1044.8684166666656,1636.0731666666675,3303.714183333331,4706.79611666666],"y":["Noah Kahan","Bracia Figo Fagot","Hozier","Sabrina Carpenter","The Weeknd","Bad Bunny","Harry Styles","Taco Hemingway","Olivia Rodrigo","Taylor Swift"],"type":"bar"}],                        {"template":{"data":{"histogram2dcontour":[{"type":"histogram2dcontour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"choropleth":[{"type":"choropleth","colorbar":{"outlinewidth":0,"ticks":""}}],"histogram2d":[{"type":"histogram2d","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmap":[{"type":"heatmap","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"contourcarpet":[{"type":"contourcarpet","colorbar":{"outlinewidth":0,"ticks":""}}],"contour":[{"type":"contour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"surface":[{"type":"surface","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"mesh3d":[{"type":"mesh3d","colorbar":{"outlinewidth":0,"ticks":""}}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"parcoords":[{"type":"parcoords","line":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolargl":[{"type":"scatterpolargl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"scattergeo":[{"type":"scattergeo","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolar":[{"type":"scatterpolar","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"scattergl":[{"type":"scattergl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatter3d":[{"type":"scatter3d","line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermap":[{"type":"scattermap","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermapbox":[{"type":"scattermapbox","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterternary":[{"type":"scatterternary","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattercarpet":[{"type":"scattercarpet","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}],"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"pie":[{"automargin":true,"type":"pie"}]},"layout":{"autotypenumbers":"strict","colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"hovermode":"closest","hoverlabel":{"align":"left"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"bgcolor":"#E5ECF6","angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"ternary":{"bgcolor":"#E5ECF6","aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]]},"xaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"yaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"geo":{"bgcolor":"white","landcolor":"#E5ECF6","subunitcolor":"white","showland":true,"showlakes":true,"lakecolor":"white"},"title":{"x":0.05},"mapbox":{"style":"light"}}},"font":{"color":"white","size":13},"title":{"text":"\ud83c\udfa4 Top 10 artyst\u00f3w (wg minut s\u0142uchania)"},"plot_bgcolor":"#121212","paper_bgcolor":"#121212","height":450,"xaxis":{"title":{"text":"Minuty s\u0142uchania"}}},                        {"responsive": true}                    )                };            </script>        </div>
+    </div>
+
+    <div class="section">
+        <div style="height:400px; width:100%;">                            <div id="b499bbc8-34e1-40c0-a069-f4023c6a51ed" class="plotly-graph-div" style="height:100%; width:100%;"></div>            <script>                window.PLOTLYENV=window.PLOTLYENV || {};                                if (document.getElementById("b499bbc8-34e1-40c0-a069-f4023c6a51ed")) {                    Plotly.newPlot(                        "b499bbc8-34e1-40c0-a069-f4023c6a51ed",                        [{"marker":{"color":"#1DB954"},"x":["Sty","Lut","Mar","Kwi","Maj","Cze","Lip","Sie","Wrz","Pa\u017a","Lis","Gru"],"y":[1425,1083,1175,1271,953,1072,1277,802,0,0,0,0],"type":"bar"}],                        {"template":{"data":{"histogram2dcontour":[{"type":"histogram2dcontour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"choropleth":[{"type":"choropleth","colorbar":{"outlinewidth":0,"ticks":""}}],"histogram2d":[{"type":"histogram2d","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmap":[{"type":"heatmap","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"contourcarpet":[{"type":"contourcarpet","colorbar":{"outlinewidth":0,"ticks":""}}],"contour":[{"type":"contour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"surface":[{"type":"surface","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"mesh3d":[{"type":"mesh3d","colorbar":{"outlinewidth":0,"ticks":""}}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"parcoords":[{"type":"parcoords","line":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolargl":[{"type":"scatterpolargl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"scattergeo":[{"type":"scattergeo","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolar":[{"type":"scatterpolar","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"scattergl":[{"type":"scattergl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatter3d":[{"type":"scatter3d","line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermap":[{"type":"scattermap","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermapbox":[{"type":"scattermapbox","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterternary":[{"type":"scatterternary","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattercarpet":[{"type":"scattercarpet","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}],"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"pie":[{"automargin":true,"type":"pie"}]},"layout":{"autotypenumbers":"strict","colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"hovermode":"closest","hoverlabel":{"align":"left"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"bgcolor":"#E5ECF6","angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"ternary":{"bgcolor":"#E5ECF6","aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]]},"xaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"yaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"geo":{"bgcolor":"white","landcolor":"#E5ECF6","subunitcolor":"white","showland":true,"showlakes":true,"lakecolor":"white"},"title":{"x":0.05},"mapbox":{"style":"light"}}},"font":{"color":"white","size":13},"title":{"text":"\ud83d\udcc5 Odtworzenia w poszczeg\u00f3lnych miesi\u0105cach 2026"},"plot_bgcolor":"#121212","paper_bgcolor":"#121212","height":400},                        {"responsive": true}                    )                };            </script>        </div>
+    </div>
+
+    <div class="section">
+        <div style="height:400px; width:100%;">                            <div id="bc76b74f-66d9-406e-85a3-10764b9bdb5d" class="plotly-graph-div" style="height:100%; width:100%;"></div>            <script>                window.PLOTLYENV=window.PLOTLYENV || {};                                if (document.getElementById("bc76b74f-66d9-406e-85a3-10764b9bdb5d")) {                    Plotly.newPlot(                        "bc76b74f-66d9-406e-85a3-10764b9bdb5d",                        [{"marker":{"color":"#1DB954"},"x":["0:00","1:00","2:00","3:00","4:00","5:00","6:00","7:00","8:00","9:00","10:00","11:00","12:00","13:00","14:00","15:00","16:00","17:00","18:00","19:00","20:00","21:00","22:00","23:00"],"y":[3,3,2,3,85,388,381,413,736,620,757,734,658,662,1000,713,362,430,530,285,159,86,28,20],"type":"bar"}],                        {"template":{"data":{"histogram2dcontour":[{"type":"histogram2dcontour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"choropleth":[{"type":"choropleth","colorbar":{"outlinewidth":0,"ticks":""}}],"histogram2d":[{"type":"histogram2d","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmap":[{"type":"heatmap","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"contourcarpet":[{"type":"contourcarpet","colorbar":{"outlinewidth":0,"ticks":""}}],"contour":[{"type":"contour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"surface":[{"type":"surface","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"mesh3d":[{"type":"mesh3d","colorbar":{"outlinewidth":0,"ticks":""}}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"parcoords":[{"type":"parcoords","line":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolargl":[{"type":"scatterpolargl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"scattergeo":[{"type":"scattergeo","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolar":[{"type":"scatterpolar","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"scattergl":[{"type":"scattergl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatter3d":[{"type":"scatter3d","line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermap":[{"type":"scattermap","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermapbox":[{"type":"scattermapbox","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterternary":[{"type":"scatterternary","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattercarpet":[{"type":"scattercarpet","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}],"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"pie":[{"automargin":true,"type":"pie"}]},"layout":{"autotypenumbers":"strict","colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"hovermode":"closest","hoverlabel":{"align":"left"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"bgcolor":"#E5ECF6","angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"ternary":{"bgcolor":"#E5ECF6","aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]]},"xaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"yaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"geo":{"bgcolor":"white","landcolor":"#E5ECF6","subunitcolor":"white","showland":true,"showlakes":true,"lakecolor":"white"},"title":{"x":0.05},"mapbox":{"style":"light"}}},"font":{"color":"white","size":13},"title":{"text":"\ud83d\udd50 O kt\u00f3rej porze dnia s\u0142uchasz najwi\u0119cej"},"plot_bgcolor":"#121212","paper_bgcolor":"#121212","height":400},                        {"responsive": true}                    )                };            </script>        </div>
+    </div>
+
+    <div class="section">
+        <div style="height:400px; width:100%;">                            <div id="783d384a-3e5b-4b70-b7b9-867d7b7d4810" class="plotly-graph-div" style="height:100%; width:100%;"></div>            <script>                window.PLOTLYENV=window.PLOTLYENV || {};                                if (document.getElementById("783d384a-3e5b-4b70-b7b9-867d7b7d4810")) {                    Plotly.newPlot(                        "783d384a-3e5b-4b70-b7b9-867d7b7d4810",                        [{"marker":{"color":"#1DB954"},"x":["Pon","Wt","\u015ar","Czw","Pt","Sob","Nd"],"y":[1314,1879,1540,1565,1425,635,700],"type":"bar"}],                        {"template":{"data":{"histogram2dcontour":[{"type":"histogram2dcontour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"choropleth":[{"type":"choropleth","colorbar":{"outlinewidth":0,"ticks":""}}],"histogram2d":[{"type":"histogram2d","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmap":[{"type":"heatmap","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"contourcarpet":[{"type":"contourcarpet","colorbar":{"outlinewidth":0,"ticks":""}}],"contour":[{"type":"contour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"surface":[{"type":"surface","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"mesh3d":[{"type":"mesh3d","colorbar":{"outlinewidth":0,"ticks":""}}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"parcoords":[{"type":"parcoords","line":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolargl":[{"type":"scatterpolargl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"scattergeo":[{"type":"scattergeo","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolar":[{"type":"scatterpolar","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"scattergl":[{"type":"scattergl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatter3d":[{"type":"scatter3d","line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermap":[{"type":"scattermap","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermapbox":[{"type":"scattermapbox","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterternary":[{"type":"scatterternary","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattercarpet":[{"type":"scattercarpet","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}],"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"pie":[{"automargin":true,"type":"pie"}]},"layout":{"autotypenumbers":"strict","colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"hovermode":"closest","hoverlabel":{"align":"left"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"bgcolor":"#E5ECF6","angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"ternary":{"bgcolor":"#E5ECF6","aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]]},"xaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"yaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"geo":{"bgcolor":"white","landcolor":"#E5ECF6","subunitcolor":"white","showland":true,"showlakes":true,"lakecolor":"white"},"title":{"x":0.05},"mapbox":{"style":"light"}}},"font":{"color":"white","size":13},"title":{"text":"\ud83d\udcc6 Kt\u00f3ry dzie\u0144 tygodnia jest Twoim ulubionym"},"plot_bgcolor":"#121212","paper_bgcolor":"#121212","height":400},                        {"responsive": true}                    )                };            </script>        </div>
+    </div>
+
+    <div class="section">
+        <h2>Ciekawostki</h2>
+        <ul>
+            <li>🏆 Najwięcej słuchałaś w dniu: <b>14.07.2026 (139 utworów)</b></li>
+            <li>📱 Najczęściej używana platforma: <b>ios</b> (8661 odtworzeń)</li>
+            <li>📊 W porównaniu do 2025 roku, w 2026 słuchałaś <b>36% mniej</b> piosenek (5,163 mniej)</li><li>🎯 <b>Taylor Swift</b> to Twój top artysta drugi rok z rzędu!</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>📊 Twoja muzyczna historia — 2016–2026</h2>
+        <div style="height:400px; width:100%;">                            <div id="df439b70-b737-4ac7-8a55-cb8ff36b1c88" class="plotly-graph-div" style="height:100%; width:100%;"></div>            <script>                window.PLOTLYENV=window.PLOTLYENV || {};                                if (document.getElementById("df439b70-b737-4ac7-8a55-cb8ff36b1c88")) {                    Plotly.newPlot(                        "df439b70-b737-4ac7-8a55-cb8ff36b1c88",                        [{"marker":{"color":["#535353","#535353","#535353","#535353","#535353","#535353","#535353","#535353","#535353","#535353","#1DB954"]},"x":["2016","2017","2018","2019","2020","2021","2022","2023","2024","2025","2026"],"y":[1656,5627,6346,10887,14876,14169,10808,11768,14884,14221,9058],"type":"bar"}],                        {"template":{"data":{"histogram2dcontour":[{"type":"histogram2dcontour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"choropleth":[{"type":"choropleth","colorbar":{"outlinewidth":0,"ticks":""}}],"histogram2d":[{"type":"histogram2d","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmap":[{"type":"heatmap","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"contourcarpet":[{"type":"contourcarpet","colorbar":{"outlinewidth":0,"ticks":""}}],"contour":[{"type":"contour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"surface":[{"type":"surface","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"mesh3d":[{"type":"mesh3d","colorbar":{"outlinewidth":0,"ticks":""}}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"parcoords":[{"type":"parcoords","line":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolargl":[{"type":"scatterpolargl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"scattergeo":[{"type":"scattergeo","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolar":[{"type":"scatterpolar","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"scattergl":[{"type":"scattergl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatter3d":[{"type":"scatter3d","line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermap":[{"type":"scattermap","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermapbox":[{"type":"scattermapbox","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterternary":[{"type":"scatterternary","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattercarpet":[{"type":"scattercarpet","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}],"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"pie":[{"automargin":true,"type":"pie"}]},"layout":{"autotypenumbers":"strict","colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"hovermode":"closest","hoverlabel":{"align":"left"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"bgcolor":"#E5ECF6","angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"ternary":{"bgcolor":"#E5ECF6","aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]]},"xaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"yaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"geo":{"bgcolor":"white","landcolor":"#E5ECF6","subunitcolor":"white","showland":true,"showlakes":true,"lakecolor":"white"},"title":{"x":0.05},"mapbox":{"style":"light"}}},"font":{"color":"white","size":13},"title":{"text":"\ud83d\udcc8 Liczba odtworzonych piosenek w kolejnych latach"},"plot_bgcolor":"#121212","paper_bgcolor":"#121212","height":400},                        {"responsive": true}                    )                };            </script>        </div>
+        <div style="height:400px; width:100%;">                            <div id="fc468955-493b-4df4-bbe4-0fe350e1f174" class="plotly-graph-div" style="height:100%; width:100%;"></div>            <script>                window.PLOTLYENV=window.PLOTLYENV || {};                                if (document.getElementById("fc468955-493b-4df4-bbe4-0fe350e1f174")) {                    Plotly.newPlot(                        "fc468955-493b-4df4-bbe4-0fe350e1f174",                        [{"fill":"tozeroy","fillcolor":"rgba(29,185,84,0.15)","line":{"color":"#1DB954","width":3},"marker":{"color":"#1DB954","size":10},"mode":"lines+markers","x":["2016","2017","2018","2019","2020","2021","2022","2023","2024","2025","2026"],"y":[76.46725833333333,269.8633738888889,324.35526166666665,550.1475630555556,730.9476555555556,687.918365,552.510676111111,618.9860588888889,824.2662236111111,785.1315869444444,489.8983738888889],"type":"scatter"}],                        {"template":{"data":{"histogram2dcontour":[{"type":"histogram2dcontour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"choropleth":[{"type":"choropleth","colorbar":{"outlinewidth":0,"ticks":""}}],"histogram2d":[{"type":"histogram2d","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmap":[{"type":"heatmap","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"contourcarpet":[{"type":"contourcarpet","colorbar":{"outlinewidth":0,"ticks":""}}],"contour":[{"type":"contour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"surface":[{"type":"surface","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"mesh3d":[{"type":"mesh3d","colorbar":{"outlinewidth":0,"ticks":""}}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"parcoords":[{"type":"parcoords","line":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolargl":[{"type":"scatterpolargl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"scattergeo":[{"type":"scattergeo","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolar":[{"type":"scatterpolar","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"scattergl":[{"type":"scattergl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatter3d":[{"type":"scatter3d","line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermap":[{"type":"scattermap","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermapbox":[{"type":"scattermapbox","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterternary":[{"type":"scatterternary","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattercarpet":[{"type":"scattercarpet","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}],"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"pie":[{"automargin":true,"type":"pie"}]},"layout":{"autotypenumbers":"strict","colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"hovermode":"closest","hoverlabel":{"align":"left"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"bgcolor":"#E5ECF6","angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"ternary":{"bgcolor":"#E5ECF6","aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]]},"xaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"yaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"geo":{"bgcolor":"white","landcolor":"#E5ECF6","subunitcolor":"white","showland":true,"showlakes":true,"lakecolor":"white"},"title":{"x":0.05},"mapbox":{"style":"light"}}},"font":{"color":"white","size":13},"title":{"text":"\u23f1\ufe0f Godziny s\u0142uchania na przestrzeni lat"},"plot_bgcolor":"#121212","paper_bgcolor":"#121212","height":400},                        {"responsive": true}                    )                };            </script>        </div>
+    </div>
+
+    <div class="section">
+        <h2>🗓️ Rok po roku: co grało najczęściej</h2>
+        <div style="overflow-x:auto;">
+        <table style="width:100%; border-collapse:collapse; background:#181818; border-radius:8px; overflow:hidden;">
+            <thead>
+                <tr style="background:#1DB954; color:#121212;">
+                    <th style="padding:12px; text-align:left;">Rok</th>
+                    <th style="padding:12px; text-align:left;">Top artysta</th>
+                    <th style="padding:12px; text-align:left;">Top utwór</th>
+                    <th style="padding:12px; text-align:left;">Top album</th>
+                    <th style="padding:12px; text-align:left;">Piosenek</th>
+                    <th style="padding:12px; text-align:left;">Godzin</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+        <tr style="">
+            <td><b>2016</b></td>
+            <td>Hollywood Undead <span class='count'>877 min</span></td>
+            <td>Last Christmas — Wham! <span class='count'>156 min</span></td>
+            <td>Christmas Hits <span class='count'>546 min</span></td>
+            <td>1,656</td>
+            <td>76h</td>
+        </tr>
+        <tr style="">
+            <td><b>2017</b></td>
+            <td>5 Seconds of Summer <span class='count'>7345 min</span></td>
+            <td>Permanent Vacation — 5 Seconds of Summer <span class='count'>297 min</span></td>
+            <td>Sounds Good Feels Good <span class='count'>2609 min</span></td>
+            <td>5,627</td>
+            <td>270h</td>
+        </tr>
+        <tr style="">
+            <td><b>2018</b></td>
+            <td>5 Seconds of Summer <span class='count'>2371 min</span></td>
+            <td>If Walls Could Talk — 5 Seconds of Summer <span class='count'>199 min</span></td>
+            <td>Youngblood - Deluxe <span class='count'>1707 min</span></td>
+            <td>6,346</td>
+            <td>324h</td>
+        </tr>
+        <tr style="">
+            <td><b>2019</b></td>
+            <td>Pyotr Ilyich Tchaikovsky <span class='count'>831 min</span></td>
+            <td>Wehikuł Czasu - To Byłby Cud - 2003 Remaster — Dzem <span class='count'>399 min</span></td>
+            <td>The Twilight Saga: Breaking Dawn - Part 1 <span class='count'>431 min</span></td>
+            <td>10,887</td>
+            <td>550h</td>
+        </tr>
+        <tr style="">
+            <td><b>2020</b></td>
+            <td>Quebonafide <span class='count'>2302 min</span></td>
+            <td>Toksyna — Kwestia 07 <span class='count'>691 min</span></td>
+            <td>ROMANTIC PSYCHO <span class='count'>2117 min</span></td>
+            <td>14,876</td>
+            <td>731h</td>
+        </tr>
+        <tr style="">
+            <td><b>2021</b></td>
+            <td>Mata <span class='count'>2734 min</span></td>
+            <td>Patoreakcja — Mata <span class='count'>678 min</span></td>
+            <td>SEZON3 <span class='count'>1745 min</span></td>
+            <td>14,169</td>
+            <td>688h</td>
+        </tr>
+        <tr style="">
+            <td><b>2022</b></td>
+            <td>The Offspring <span class='count'>1523 min</span></td>
+            <td>Danse macabre — Camille Saint-Saëns <span class='count'>429 min</span></td>
+            <td>Rise And Fall, Rage And Grace <span class='count'>745 min</span></td>
+            <td>10,808</td>
+            <td>553h</td>
+        </tr>
+        <tr style="">
+            <td><b>2023</b></td>
+            <td>Taylor Swift <span class='count'>16325 min</span></td>
+            <td>All Too Well (10 Minute Version) (Taylor's Version) (From The Vault) — Taylor Swift <span class='count'>625 min</span></td>
+            <td>Midnights <span class='count'>2210 min</span></td>
+            <td>11,768</td>
+            <td>619h</td>
+        </tr>
+        <tr style="">
+            <td><b>2024</b></td>
+            <td>Taylor Swift <span class='count'>28222 min</span></td>
+            <td>All Too Well (10 Minute Version) (Taylor's Version) (From The Vault) — Taylor Swift <span class='count'>882 min</span></td>
+            <td>THE TORTURED POETS DEPARTMENT: THE ANTHOLOGY <span class='count'>4366 min</span></td>
+            <td>14,884</td>
+            <td>824h</td>
+        </tr>
+        <tr style="">
+            <td><b>2025</b></td>
+            <td>Taylor Swift <span class='count'>15665 min</span></td>
+            <td>The Fate of Ophelia — Taylor Swift <span class='count'>427 min</span></td>
+            <td>THE TORTURED POETS DEPARTMENT: THE ANTHOLOGY <span class='count'>2090 min</span></td>
+            <td>14,221</td>
+            <td>785h</td>
+        </tr>
+        <tr style="background:#1DB95422;">
+            <td><b>2026</b></td>
+            <td>Taylor Swift <span class='count'>4707 min</span></td>
+            <td>drop dead — Olivia Rodrigo <span class='count'>351 min</span></td>
+            <td>you seem pretty sad for a girl so in love <span class='count'>1776 min</span></td>
+            <td>9,058</td>
+            <td>490h</td>
+        </tr>
+            </tbody>
+        </table>
+        </div>
+    </div>
+
+</div>
+
+<footer>Dane wygenerowane na podstawie Twojego pliku Extended Streaming History ze Spotify.</footer>
+
+</body>
+</html>
