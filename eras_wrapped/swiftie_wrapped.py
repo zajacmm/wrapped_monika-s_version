@@ -7,8 +7,9 @@ from collections import Counter, defaultdict
 from datetime import datetime, timedelta
 
 
-# Ścieżka do folderu z plikami Streaming_History_Audio_*.json
-DATA_FOLDER = "spotify_data"
+# Ścieżki liczone względem położenia skryptu, niezależnie od katalogu uruchomienia.
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+DATA_FOLDER = os.path.join(SCRIPT_DIR, '..', 'spotify_data')
 
 # Zakres lat do analizy (włącznie)
 YEAR_FROM = 2022
@@ -26,7 +27,7 @@ REAL_PLAY_THRESHOLD_MS = 30_000
 CURRENT_ERA_WINDOW_DAYS = 90
 
 # Plik wyjściowy
-OUTPUT_FILE = "twoj_eras_tour_spotify.html"
+OUTPUT_FILE = os.path.join(SCRIPT_DIR, "twoj_eras_tour_spotify_1.html")
 
 # Przybliżone przesunięcie strefy czasowej względem UTC używane tylko
 # do wykresu "pora dnia" (dane Spotify są w UTC). Dla Polski to +1 (zima)
@@ -58,7 +59,7 @@ ERA_LABELS_PL = {
     'evermore': 'evermore',
     'Midnights': 'Midnights',
     'TTPD': 'THE TORTURED POETS DEPARTMENT',
-    'Showgirl': 'The Life of a Showgirl',
+    'Showgirl': 'The Life of a Showgirl'
 }
 
 ERA_COLORS = {
@@ -86,6 +87,7 @@ ERA_COLORS = {
 ALBUM_TO_ERA = {
     'Taylor Swift': 'Debut',
     'The Taylor Swift Holiday Collection': 'Debut',
+    'Christmas Tree Farm': 'Debut',
 
     'Fearless - Big Machine Radio Release Special': 'Fearless',
     "Fearless (Taylor's Version)": 'Fearless (TV)',
@@ -102,7 +104,6 @@ ALBUM_TO_ERA = {
     'Red': 'Red',
     'The Hunger Games: Songs From District 12 And Beyond': 'Red',
     "Red (Taylor's Version)": 'Red (TV)',
-    "You're Losing Me (From The Vault)": 'Red (TV)',
     'All Too Well (Sad Girl Autumn Version) - Recorded at Long Pond Studios': 'Red (TV)',
 
     '1989': '1989',
@@ -120,22 +121,24 @@ ALBUM_TO_ERA = {
     'The Archer': 'Lover',
     'You Need To Calm Down': 'Lover',
     'Daylight': 'Lover',
+    'All Of The Girls You Loved Before': 'Lover',
+    'The Cruelest Summer': 'Lover',
 
     'folklore': 'folklore',
     'folklore: the long pond studio sessions (from the Disney+ special)': 'folklore',
     'folklore: the long pond studio sessions (from the Disney+ special) - deluxe edition': 'folklore',
     'cardigan': 'folklore',
     'the lakes': 'folklore',
+    'Carolina': 'folklore',
 
     'evermore': 'evermore',
     'willow': 'evermore',
-    'Christmas Tree Farm': 'evermore',
 
     'Midnights': 'Midnights',
     'Bejeweled': 'Midnights',
     'Lavender Haze': 'Midnights',
     'Anti-Hero': 'Midnights',
-    'Carolina': 'Midnights',
+    "You're Losing Me (From The Vault)": 'Midnights',
 
     'THE TORTURED POETS DEPARTMENT': 'TTPD',
     'THE TORTURED POETS DEPARTMENT: THE ANTHOLOGY': 'TTPD',
@@ -147,8 +150,7 @@ ALBUM_TO_ERA = {
     'The Fate of Ophelia': 'Showgirl',
     'Opalite': 'Showgirl',
     'I Knew It, I Knew You': 'Showgirl',
-    'All Of The Girls You Loved Before': 'Showgirl',
-    'The Cruelest Summer': 'Showgirl',
+    'The Life of a Showgirl: The Encore': 'Showgirl',
 }
 
 WEEKDAY_ORDER_PL = ['Poniedziałek', 'Wtorek', 'Środa', 'Czwartek', 'Piątek', 'Sobota', 'Niedziela']
